@@ -1,10 +1,11 @@
 ---
-title: ABOUT
+title: 使用VUE3创建个人静态主页
 category: CodeSpace_Blog
 serialNo: 1
 tags: [VUE3]
 date: 2025/1/8
-thumbnail: /_pics/CodeSpace_Blog/1_vue3_static_website_thumbnail.png
+thumbnail: /_pics/CodeSpace_Blog/v3_sbw_static_website_thumbnail.png
+summary: 无
 ---
 
 # 🌟 前言
@@ -26,11 +27,12 @@ thumbnail: /_pics/CodeSpace_Blog/1_vue3_static_website_thumbnail.png
 > **🎉 欢迎一起交流！💬 (⭐️ start 和 🍴 fork，感谢大家的支持！🙏)**
 
 - 主页预览
-  ![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/d8cf33dfcc144d41b067dc21e3017ebe.gif)
+
+![主页预览](/_pics/CodeSpace_Blog/v3_sbw_home_preview.gif)
 
 - 博客页预览
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/e3b2d6e26b054e5ba8044ae55edb9297.gif)
+![博客页预览](/_pics/CodeSpace_Blog/v3_sbw_preview_blog.gif)
 
 # 🔨 具体实现
 
