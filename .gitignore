@@ -3,6 +3,7 @@ node_modules
 /dist
 
 # local env files
+.env
 .env.local
 .env.*.local
 
@@ -26,5 +27,8 @@ pnpm-debug.log*
 /public/_blogs/*
 /public/_pics/*
 /*.sh
+
+/_data/privacy.json
+/public/_data/privacy.json
 
 
