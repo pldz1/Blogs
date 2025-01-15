@@ -8,8 +8,6 @@ thumbnail: /_pics/AIGC_Playground/0_category.png
 summary: 无
 ---
 
-![Alt text](image.png)
-
 # 🎉 前言
 
 记录在 [AIGC_Playground](https://github.com/pldz1/AIGC_Playground) 项目的相关 blog 的分类

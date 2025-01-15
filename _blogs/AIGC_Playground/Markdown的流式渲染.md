@@ -19,9 +19,11 @@ summary: 无
 - 框架是 `VUE3` 和 `vite`
 - `node` 版本是 `v20.15.1`
 - `markdown` 渲染核心工具是`markdown-it`
-- 参考了我之前用的做静态个人网页的项目的 `markdown` 的渲染方法: [Browser_Proxy_Plugin](https://github.com/pldz1/Browser_Proxy_Plugin)
+- 参考了我之前用的做静态个人网页的项目的 `markdown` 的渲染方法: [VUE3_Static_Blog_WebSite](https://github.com/pldz1/VUE3_Static_Blog_WebSite)
 
 ## 😎 体验预览
+
+👉 在线体验: [https://pldz1.github.io/\_codespace/sse_markdown/index.html](https://pldz1.github.io/_codespace/sse_markdown/index.html)
 
 👉 下面的代码源码被放在了: [AIGC_Playground/samples/sse_markdown](https://github.com/pldz1/AIGC_Playground)
 
