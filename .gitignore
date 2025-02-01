@@ -28,7 +28,4 @@ pnpm-debug.log*
 /public/_pics/*
 /*.sh
 
-/_data/privacy.json
-/public/_data/privacy.json
-
 
