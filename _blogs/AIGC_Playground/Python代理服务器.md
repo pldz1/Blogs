@@ -1,9 +1,9 @@
 ---
 title: Python代理服务器
 category: AIGC_Playground
-serialNo: 2
+serialNo: 3
 tags: [Python, WEB, HTTP]
-date: 2025/02/01
+date: 2025-02-01
 thumbnail: /_pics/AIGC_Playground/3_pyproxy_thumbnail.png
 summary: 简单的Python全代理服务器:支持 HTTP 和 WebSocket 请求转发。通过aiohttp库实现异步处理，有效支持高并发请求，适用于需要代理服务的场景
 ---

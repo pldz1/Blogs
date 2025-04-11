@@ -3,7 +3,7 @@ title: 1 Ubuntu配置与ROS2快速体验
 category: ROS2_BASIC
 serialNo: 1
 tags: [ROS2基础]
-date: 2025/1/1
+date: 2025-01-01
 thumbnail: /_pics/default_thumbnail.png
 summary: 无
 ---
@@ -135,13 +135,9 @@ options:
 下面对上诉的命令进行简单的介绍：
 
 > - 提示当中的`[]`的内容表示命令关键字，`{}`的内容表示可以携带的参数示例，例如创建 `--build-type` 后面就可以接着 `ament_cmake` 参数
->
 > - `[--destination-directory DESTINATION_DIRECTORY]` ：ROS2 的项目的位置，即在哪里创建你的 ROS2 项目
->
 > - `[--build-type {cmake,ament_cmake,ament_python}]` ：ROS2 编译项目的方式，有`cmake` `ament_camke`和`ament_python`三种可选，`ament_cmake`是基于 cmake 的一个 cmake 升级工具， 了解更多的 ROS2 ament 工具：[(https://blog.csdn.net/gongdiwudu/article/details/126192244)](<(https://blog.csdn.net/gongdiwudu/article/details/126192244)>)
->
 > - `[--dependencies]` ：ROS2 项目的依赖项，这部分内容后面可以手动增加，其中常见的`rclpy 是 python`的节点依赖项，`rclcpp是C/C++节点的依赖项`，（`rcl`表示`ros2 client`）
->
 > - `[--node-name]` ：预先设置的 ROS2 节点名字
 
 2. 因此可以使用命令：`ros2 pkg create <你的项目名字> --build-type <选择cmake/ament_camke/ament_python三者之一作为项目的编译工具> --node-name <节点名称，这一项可以不写，后续手动配置> --dependencies <依赖项名字，例如在ROS1中常用的rclpy rclcpp std_msgs sensor_msgs等>`，如：
@@ -686,13 +682,9 @@ ROS2 的介绍中，有这么一张图，习惯划分说 ROS2 分为三层[来�
 1. 创建 ROS2 项目的流程：
 
 > - 1. 创建功能包: `ros2 pkg create <项目名> --build-type <cmake/ament_camke/ament_python> --node-name <节点名> --dependencies <rclpy/rclcpp ...>`
->
 > - 2. 编辑源文件：采用继承`rcl`节点发方式，创建 ROS2 节点
->
 > - 3. 编辑配置文件： C/C++ 配置`packages.xml`和`CMakeLists.txt`分别进行依赖项管理和编译配置，Python 项目配置`packages.xml`和`setup.py`分别进行依赖项和编译安装配置
->
 > - 4. 编译：安装`colcon`工具，`sudo apt install python3-colcon-common-extensions`，**并且在项目目录下**，进行`colcon build`
->
 > - 5. 执行：激活项目环境`source <项目>/install/setup.bash`，然后输入`ros2 run <package> <node>`
 
 ## 1.4.2 参考内容

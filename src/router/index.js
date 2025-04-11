@@ -1,18 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-
 import Home from "../views/Home.vue";
-
-import ArticleDetails from "../views/article/ArticleDetails.vue";
-
-import ArchiveList from "../views/archive/ArchiveList.vue";
-import ArchiveDetails from "../views/archive/ArchiveDetails.vue";
-
-import CategoryList from "../views/category/CategoryList.vue";
-import CategoryDetails from "../views/category/CategoryDetails.vue";
-
-import TagList from "../views/tag/TagList.vue";
-import TagDetails from "../views/tag/TagDetails.vue";
-
+import BlogDetails from "../views/blog/BlogDetails.vue";
+import BlogList from "../views/BlogList.vue";
+import CodeSpaceList from "../views/CodeSpaceList.vue";
 import PageNotFound from "../views/PageNotFound.vue";
 
 const routes = [
@@ -22,43 +12,20 @@ const routes = [
     component: Home,
   },
   {
-    path: "/article/:id",
-    name: "ArticleDetails",
-    component: ArticleDetails,
+    path: "/blog/:id",
+    name: "BlogDetails",
+    component: BlogDetails,
     props: true,
   },
   {
-    path: "/archive",
-    name: "ArchiveList",
-    component: ArchiveList,
+    path: "/bloglist",
+    name: "BlogList",
+    component: BlogList,
   },
   {
-    path: "/archive/:id",
-    name: "ArchiveDetails",
-    component: ArchiveDetails,
-    props: true,
-  },
-  {
-    path: "/category",
-    name: "CategoryList",
-    component: CategoryList,
-  },
-  {
-    path: "/category/:id",
-    name: "CategoryDetails",
-    component: CategoryDetails,
-    props: true,
-  },
-  {
-    path: "/tag",
-    name: "TagList",
-    component: TagList,
-  },
-  {
-    path: "/tag/:id",
-    name: "TagDetails",
-    component: TagDetails,
-    props: true,
+    path: "/codespace",
+    name: "CodeSpaceList",
+    component: CodeSpaceList,
   },
   {
     path: "/404",
@@ -105,7 +72,7 @@ function hideGlobalLoading() {
 
 // ===== 路由切换进度条逻辑 =====
 router.beforeEach((to, from, next) => {
-  console.log("[DEBUG] from =", from.fullPath, "to =", to.fullPath);
+  // console.log("[DEBUG] from =", from.fullPath, "to =", to.fullPath);
   // 如果目标地址 == 当前地址，就不再重复显示进度条
   if (to.fullPath === from.fullPath) {
     return next();

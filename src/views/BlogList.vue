@@ -6,18 +6,24 @@
       <!-- 侧边栏 -->
       <div class="side-content">
         <WebSiteAuthorCard></WebSiteAuthorCard>
-        <SideBarTag></SideBarTag>
+        <SideBarCategory
+          :title="`全部博客类别`"
+          :category-list="categoryList"
+          @on-change-category="handleChangeCategory"
+        ></SideBarCategory>
+        <SideBarTag @on-change-tag="handleChangeTag"></SideBarTag>
       </div>
 
       <!-- 界面的主题内容 -->
       <div class="home-content">
         <div class="home-card-list">
-          <HomeCard
-            v-for="(article, index) in blogsCategroyList"
-            :key="article.id"
-            :article="article"
-            :reverse="index % 2 == 1"
-          ></HomeCard>
+          <BlogCard
+            v-for="(blog, index) in blogsCategroyList"
+            ctype="blog"
+            :key="blog.id"
+            :blog="blog"
+            :reverse="false"
+          ></BlogCard>
         </div>
       </div>
     </div>
@@ -26,45 +32,76 @@
     <FootBar></FootBar>
 
     <!-- 滚动到顶部按钮 -->
-    <BackToTop :cls="'home'"></BackToTop>
+    <BackToTop :cls="'home'" ref="backToTopRef"></BackToTop>
   </div>
 </template>
 
 <script setup>
 import { useStore } from "vuex";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 
-import HeaderBar from "../../components/HeaderBar.vue";
-import WebSiteAuthorCard from "../../components/WebSiteAuthorCard.vue";
-import SideBarTag from "../../components/SideBarTag.vue";
-import HomeCard from "../../components/HomeCard.vue";
-import FootBar from "../../components/FootBar.vue";
-import BackToTop from "../../components/BackToTop.vue";
+import HeaderBar from "@/components/HeaderBar.vue";
+import WebSiteAuthorCard from "@/components/WebSiteAuthorCard.vue";
+import SideBarTag from "@/components/SideBarTag.vue";
+import SideBarCategory from "@/components/SideBarCategory.vue";
+import BlogCard from "@/components/BlogCard.vue";
+import FootBar from "@/components/FootBar.vue";
+import BackToTop from "@/components/BackToTop.vue";
 
+const backToTopRef = ref(null);
 const store = useStore();
 
-// 获取博客分类数据的计算属性
-const categories = computed(() => store.state.blogsAbout.categories);
+// 获取博客分类数据
+const categories = store.state.blogsAbout.categories;
+const categoryList = Object.keys(categories).map((key) => ({
+  name: key,
+  count: categories[key]?.length || 0,
+  isShowCount: true,
+}));
+const tags = store.state.blogsAbout.tags;
 
-// 存储分类列表
+// 显示内容的响应式数据
 const blogsCategroyList = ref([]);
 
+// 通用处理函数
+const updateBlogList = (sourceMap, key) => {
+  blogsCategroyList.value = (sourceMap[key] || []).map((blog) => ({
+    ...blog,
+    url: `/blog/${blog.id}`,
+  }));
+
+  backToTopRef.value?.scrollToTop();
+};
+
+// 显示分类下的文章
+const handleChangeCategory = (categoryName) => {
+  updateBlogList(categories, categoryName);
+};
+
+// 显示标签下的文章
+const handleChangeTag = (tagName) => {
+  updateBlogList(tags, tagName);
+};
+
+/**
+ *
+ */
 onMounted(() => {
   // 清空当前分类列表
   blogsCategroyList.value = [];
 
-  for (const key in categories.value) {
-    if (categories.value.hasOwnProperty(key)) {
+  for (const key in categories) {
+    if (categories.hasOwnProperty(key)) {
       // 获取每个分类的第一个项目
-      const serialNo0Item = categories.value[key][0];
+      const serialNo0Item = categories[key][0];
       if (typeof serialNo0Item == "object") {
         blogsCategroyList.value.push({
           // 解构原始数据
           ...serialNo0Item,
-          // 设置分类名称作为标签
-          label: serialNo0Item.category,
+          // 覆盖原来名字, 改成 👉 系列-名字
+          title: `${serialNo0Item.category} - ${serialNo0Item.title}`,
           // 构建分类的URL路径
-          url: `/category/${serialNo0Item.category}`,
+          url: `/blog/${serialNo0Item.id}`,
         });
       }
     }
@@ -90,7 +127,7 @@ onMounted(() => {
 .home-content {
   width: 74%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   align-items: center;
   min-height: 600px;

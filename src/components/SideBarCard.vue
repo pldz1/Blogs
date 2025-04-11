@@ -1,12 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <span :style="headerIconStyle"
-        ><font-awesome-icon
-          v-if="props.icon.length != 0"
-          :icon="icon"
-          class="header-icon"
-      /></span>
+      <span :style="headerIconStyle"></span>
       <span v-if="props.title">{{ title }}</span>
     </div>
     <div class="card-body">
@@ -22,11 +17,6 @@ const props = defineProps({
     type: String,
     require: false,
     default: "",
-  },
-  icon: {
-    type: Array,
-    require: false,
-    default: [],
   },
   iconColor: {
     type: String,

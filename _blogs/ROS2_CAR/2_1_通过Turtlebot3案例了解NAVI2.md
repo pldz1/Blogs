@@ -3,7 +3,7 @@ title: 2 通过 Turtlebot3 案例了解 NAVI2
 category: ROS2_CAR
 serialNo: 2
 tags: [ROS2智能车]
-date: 2025/1/1
+date: 2025-01-01
 thumbnail: /_pics/default_thumbnail.png
 summary: 无
 ---

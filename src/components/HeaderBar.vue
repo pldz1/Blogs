@@ -1,27 +1,29 @@
 <template>
   <div class="header">
     <router-link class="header-title" to="/"
-      >✨ {{ websiteAbout.websiteName }} ✨</router-link
+      >✨ {{ websiteAbout.name }} ✨</router-link
     >
     <div class="header-menu">
       <div v-for="item in menuItems" :key="item.name">
         <router-link :to="item.href" class="header-menu-item">
-          <font-awesome-icon :icon="item.icon" class="header-icon" />{{
-            item.name
-          }}
+          <div class="header-menu-item-conetnt">
+            <div v-html="item.icon" class="icon-16"></div>
+            <span>{{ item.name }}</span>
+          </div>
         </router-link>
       </div>
     </div>
 
     <div id="header-menu-button" @click="drawer = !drawer">
-      <font-awesome-icon :icon="['fas', 'bars']" />
+      <div v-html="menu32"></div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
-import store from "../store";
+import store from "@/store";
+import { menu32, codespace18, blog18 } from "@/assets/svg";
 
 const props = defineProps({
   blogTitle: {
@@ -33,8 +35,8 @@ const props = defineProps({
 // 使用 `ref` 和 `reactive` 来声明响应式数据
 const drawer = ref(false);
 const menuItems = reactive([
-  { name: "首页", icon: ["fas", "home"], href: "/" },
-  { name: "分类", icon: ["fas", "folder"], href: "/category" },
+  { name: "Code Space", href: "/codespace", icon: codespace18 },
+  { name: "博客", href: "/bloglist", icon: blog18 },
 ]);
 
 const websiteAbout = store.state.websiteAbout;
@@ -59,8 +61,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-@import url("../assets/font/kanit-900.css");
-
 .header {
   position: relative;
   top: 0;
@@ -72,22 +72,14 @@ onBeforeUnmount(() => {
   align-items: center;
   padding: 0 3%;
   box-sizing: border-box;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  --text-color: #eeeeee;
-  --text-hover-color: white;
-  background-color: #3b88f1;
+  background-color: #fff;
 }
 
 .header-title {
-  color: var(--text-color);
+  color: #505050;
   font-size: 23px;
-  font-family: "Kanit";
   text-decoration: none;
   transition: all 0.2s;
-}
-
-.header-title:hover {
-  color: var(--text-hover-color);
 }
 
 .header-icon {
@@ -100,17 +92,22 @@ onBeforeUnmount(() => {
 }
 
 .header-menu-item {
-  color: var(--text-color);
+  color: #505050;
   text-decoration: none;
   font-size: 14px;
   margin-left: 25px;
   position: relative;
   padding-bottom: 5px;
   transition: color 0.4s ease-in-out;
+  display: flex;
+  height: 100%;
 }
 
-.header-menu-item:hover {
-  color: var(--text-hover-color);
+.header-menu-item-conetnt {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
 }
 
 .header-menu-item:after {

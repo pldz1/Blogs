@@ -20,7 +20,7 @@
 .header-cover::before {
   width: 100%;
   height: 150px;
-  background-color: rgb(75 137 244 / 70%);
+  background-color: #f3f6f7;
   content: "";
   position: absolute;
 }

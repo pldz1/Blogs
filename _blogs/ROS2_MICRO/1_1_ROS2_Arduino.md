@@ -3,7 +3,7 @@ title: 1 ROS2 和 Arduino 通讯
 category: ROS2_MICRO
 serialNo: 1
 tags: [ROS2和单片机]
-date: 2025/1/1
+date: 2025-01-01
 thumbnail: /_pics/default_thumbnail.png
 summary: 无
 ---

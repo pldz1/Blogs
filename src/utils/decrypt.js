@@ -1,44 +1,49 @@
-import { createDecipheriv } from "crypto";
+import CryptoJS from "crypto-js";
 
-const NEED_ENCRYPT = process.env.VUE_APP_ENCRYPT_SOURCE;
-const SECRET_KEY = process.env.VUE_APP_SECRET_KEY;
-const ALGORITHM = process.env.VUE_APP_ALGORITHM;
+const NEED_ENCRYPT = import.meta.env.VITE_ENCRYPT_SOURCE;
+const SECRET_KEY = import.meta.env.VITE_SECRET_KEY;
 
-// 确保密钥是32字节的长度（如果密钥不够32字节，则会填充，超过则会截断）
-function ensureKeyLength(key) {
-  return Buffer.from(key.padEnd(32, "0").slice(0, 32), "utf-8");
+// 处理密钥，补足为 32 字节
+function getCryptoKey(key) {
+  return CryptoJS.enc.Utf8.parse(key.padEnd(32, "0").slice(0, 32));
 }
 
 // 解密函数
 function decryptJson(encryptedBase64) {
   if (NEED_ENCRYPT === "true") {
     try {
-      // 1. 将 Base64 编码的密文解码为 Buffer
-      const encryptedBuffer = Buffer.from(encryptedBase64, "base64");
+      // Base64 解码后拿到原始二进制数据
+      const encryptedBytes = CryptoJS.enc.Base64.parse(encryptedBase64);
 
-      // 2. 提取 IV 和密文
-      const iv = encryptedBuffer.slice(0, 16); // 前 16 字节是 IV
-      const encryptedData = encryptedBuffer.slice(16); // 剩余的是密文
-
-      // 3. 创建解密器，确保指定填充方式为 PKCS7
-      const decipher = createDecipheriv(
-        ALGORITHM,
-        ensureKeyLength(SECRET_KEY),
-        iv
+      // 提取 IV（前 16 字节）和密文体
+      const iv = CryptoJS.lib.WordArray.create(
+        encryptedBytes.words.slice(0, 4), // 每个 word 是 4 字节
+        16
+      );
+      const ciphertext = CryptoJS.lib.WordArray.create(
+        encryptedBytes.words.slice(4),
+        encryptedBytes.sigBytes - 16
       );
 
-      // 4. 解密数据并确保正确处理填充
-      let decrypted = decipher.update(encryptedData, "binary", "utf8");
-      decrypted += decipher.final("utf8");
+      // 解密
+      const decrypted = CryptoJS.AES.decrypt(
+        { ciphertext },
+        getCryptoKey(SECRET_KEY),
+        {
+          iv: iv,
+          mode: CryptoJS.mode.CBC,
+          padding: CryptoJS.pad.Pkcs7,
+        }
+      );
 
-      // 5. 将解密后的数据转换回 JSON 对象
-      return JSON.parse(decrypted);
-    } catch (error) {
-      console.error("解密失败:", error);
-      return null; // 返回 null，表示解密失败
+      const decryptedText = CryptoJS.enc.Utf8.stringify(decrypted);
+
+      return JSON.parse(decryptedText);
+    } catch (err) {
+      console.error("crypto-js 解密失败:", err);
+      return null;
     }
   } else {
-    // 如果不需要加密，直接返回原始数据（假设此时数据是 JSON 字符串）
     return JSON.parse(encryptedBase64);
   }
 }

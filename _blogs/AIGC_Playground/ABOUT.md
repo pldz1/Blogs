@@ -3,9 +3,9 @@ title: ABOUT
 category: AIGC_Playground
 serialNo: 0
 tags: [AIGC, Playground]
-date: 2025/1/11
+date: 2025-01-11
 thumbnail: /_pics/AIGC_Playground/0_category.png
-summary: 无
+summary: AIGC_Playground的前言部分内容, 主要是推荐内容的导读页。
 ---
 
 # 🎉 前言

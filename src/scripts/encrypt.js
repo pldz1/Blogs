@@ -1,26 +1,26 @@
-const fs = require("fs").promises;
-const path = require("path");
-const { config } = require("dotenv");
-const { createCipheriv } = require("crypto");
+import { promises as fs } from "fs";
+import path from "path";
+import dotenv from "dotenv"; // 这里如果不想用 Vite 的方式，可以继续使用 dotenv
+import { createCipheriv } from "crypto";
 
 /** ========= STEP 1 ===========*/
-// 引入 dotenv 包 解析 .env 文件
-config();
+// 如果你没有用 Vite，才需要加载 dotenv
+dotenv.config();
 
 // 读取 process.env 中的所有环境变量并打印成一个对象
 const envVariables = {};
 
 // 遍历 process.env，过滤掉 Node.js 内置的环境变量，只保留用户定义的变量
 for (const key in process.env) {
-  if (process.env.hasOwnProperty(key) && key.startsWith("VUE_APP_")) {
+  if (process.env.hasOwnProperty(key) && key.startsWith("VITE_")) {
     envVariables[key] = process.env[key];
   }
 }
 
 /** ========= STEP 2 ===========*/
-const NEED_ENCRYPT = process.env.VUE_APP_ENCRYPT_SOURCE;
-const SECRET_KEY = process.env.VUE_APP_SECRET_KEY;
-const ALGORITHM = process.env.VUE_APP_ALGORITHM;
+const NEED_ENCRYPT = process.env.VITE_ENCRYPT_SOURCE;
+const SECRET_KEY = process.env.VITE_SECRET_KEY;
+const ALGORITHM = process.env.VITE_ALGORITHM;
 
 // 应该要操作的博客文件
 const ALL_BLOGS_DATA_FILE = "public/all.blog.json";

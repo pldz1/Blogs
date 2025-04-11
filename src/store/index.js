@@ -6,7 +6,7 @@ const blogsAbout = {
   state: {
     archives: [],
     categories: {},
-    tags: [],
+    tags: {},
   },
   actions: {
     // 通过 dispatch 调用这个 action，来提交 mutation
@@ -20,7 +20,37 @@ const blogsAbout = {
       if (data) {
         state.archives = data?.archives || [];
         state.categories = data?.categories || {};
-        state.tags = data?.tags || [];
+        state.tags = data?.tags || {};
+      }
+    },
+  },
+};
+
+const codespaceAbout = {
+  namespaced: true,
+  state: {
+    // 具体数据的模板和访问的键名
+    data: {
+      key1: {
+        titele: "",
+        url: "",
+        date: "",
+        thumbnail: "",
+        summary: "",
+      },
+    },
+  },
+  actions: {
+    // 通过 dispatch 调用这个 action，来提交 mutation
+    setCodeSpaceData({ commit }, data) {
+      commit("setCodeSpaceData", data);
+    },
+  },
+  mutations: {
+    // mutation 来更新 code space 数据
+    setCodeSpaceData(state, data) {
+      if (data) {
+        if (typeof data == "object") state.data = data;
       }
     },
   },
@@ -30,36 +60,26 @@ const blogsAbout = {
 const websiteAbout = {
   namespaced: true,
   state: {
-    websiteName: process.env.VUE_APP_WEBSITE_NAME,
-    startDate: process.env.VUE_APP_WEB_START_TIME,
-    websiteAuthorInfo: {
-      name: process.env.VUE_APP_WEBSITE_NAME,
+    name: import.meta.env.VITE_WEBSITE_NAME,
+    startDate: import.meta.env.VITE_WEB_START_TIME,
+    author: {
+      name: import.meta.env.VITE_WEBSITE_AUTHOR_NAME,
       signature: "",
       avatar: "/avatar.png",
-      githubUrl: process.env.VUE_APP_WEBSITE_AUTHOR_GITHUB,
-      csdnUrl: process.env.VUE_APP_WEBSITE_AUTHOR_CSDN,
-      juejinUrl: process.env.VUE_APP_WEBSITE_AUTHOR_JUEJIN,
+      githubUrl: import.meta.env.VITE_WEBSITE_AUTHOR_GITHUB,
+      csdnUrl: import.meta.env.VITE_WEBSITE_AUTHOR_CSDN,
+      juejinUrl: import.meta.env.VITE_WEBSITE_AUTHOR_JUEJIN,
+      giteeUrl: import.meta.env.VITE_WEBSITE_AUTHOR_GITEE,
     },
     privacyData: {
       icp: "",
       copyright: "",
       ps: "",
     },
-    codespaceData: {
-      demo1: {
-        url: "",
-        date: "",
-        thumbnail: "",
-        summary: "",
-      },
-    },
   },
   actions: {
     setPrivacyData({ commit }, data) {
       commit("setPrivacyData", data);
-    },
-    setCodeSpaceData({ commit }, data) {
-      commit("setCodeSpaceData", data);
     },
   },
   mutations: {
@@ -70,15 +90,9 @@ const websiteAbout = {
         state.privacyData.ps = data?.ps || "";
       }
     },
-
-    setCodeSpaceData(state, data) {
-      if (data) {
-        if (typeof data == "object") state.codespaceData = data;
-      }
-    },
   },
 };
 
 export default createStore({
-  modules: { websiteAbout, blogsAbout },
+  modules: { websiteAbout, blogsAbout, codespaceAbout },
 });

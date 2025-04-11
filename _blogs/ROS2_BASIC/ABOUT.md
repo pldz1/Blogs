@@ -3,7 +3,7 @@ title: ABOUT
 category: ROS2_BASIC
 serialNo: 0
 tags: [ROS2基础]
-date: 2025/1/1
+date: 2025-01-01
 thumbnail: /_pics/ROS2_BASIC/0_ros2_basic.jpg
 summary: 无
 ---

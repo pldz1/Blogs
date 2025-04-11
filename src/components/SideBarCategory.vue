@@ -1,49 +1,47 @@
 <template>
-  <SideBarCard
-    :icon="['fas', 'folder']"
-    iconColor="#fcd53f"
-    title="博客文章分类"
-  >
+  <SideBarCard iconColor="#fcd53f" :title="title">
     <div class="category-list">
-      <router-link
+      <div
         v-for="category in categoryList"
-        :key="category.id"
-        :to="`/category/${category.id}`"
-        class="category-item"
+        :key="category.name"
+        :class="[
+          'category-item',
+          selectedName == category.name ? 'category-item-selected' : '',
+        ]"
+        @click="onChangeCategory(category.name)"
       >
         <span class="category-name">{{ category.name }}</span>
         <span class="category-count">{{ category.count }}</span>
-      </router-link>
+      </div>
     </div>
   </SideBarCard>
 </template>
 
 <script setup>
-import { onMounted, computed, ref } from "vue";
-import { useStore } from "vuex";
-
+import { ref } from "vue";
 import SideBarCard from "./SideBarCard.vue";
 
-const store = useStore();
-const categories = computed(() => store.state.blogsAbout.categories);
-const categoryList = ref([]);
-
-onMounted(() => {
-  categoryList.value = [];
-  for (const key in categories.value) {
-    if (categories.value.hasOwnProperty(key)) {
-      const item = {
-        id: key,
-        name: key,
-        count: categories.value[key]?.length,
-      };
-      categoryList.value.push(item);
-    }
-  }
+const emit = defineEmits(["on-change-category"]);
+const props = defineProps({
+  title: {
+    type: String,
+    require: false,
+  },
+  categoryList: {
+    type: Array,
+    require: true,
+  },
 });
+
+const selectedName = ref("");
+
+const onChangeCategory = (categoryName) => {
+  emit("on-change-category", categoryName);
+  selectedName.value = categoryName;
+};
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .category-item {
   display: flex;
   justify-content: space-between;
@@ -53,6 +51,12 @@ onMounted(() => {
   font-size: 14px;
   transition: all 0.4s;
   border-radius: 4px;
+  cursor: pointer;
+}
+
+.category-item-selected {
+  font-weight: 900;
+  color: #3e77bf;
 }
 
 .category-item:hover {

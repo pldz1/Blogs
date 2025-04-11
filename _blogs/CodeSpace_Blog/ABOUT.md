@@ -3,7 +3,7 @@ title: ABOUT
 category: CodeSpace_Blog
 serialNo: 0
 tags: [VUE3]
-date: 2025/1/8
+date: 2025-01-08
 thumbnail: /_pics/CodeSpace_Blog/0_category.jpg
 summary: 无
 ---

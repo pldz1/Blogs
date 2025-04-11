@@ -1,6 +1,6 @@
-const fs = require("fs").promises; // 使用 fs.promises 来支持 Promise API
-const path = require("path");
-const crypto = require("crypto"); // 导入 Node.js 的 crypto 模块
+import { promises as fs } from "fs"; // 支持 Promise API
+import path from "path";
+import crypto from "crypto"; // 整个模块导入
 
 // 存放网站博客markdown的源文件夹
 const blogsDir = "_blogs";
@@ -17,7 +17,7 @@ const rootDir = path.join(process.cwd(), blogsDir);
 // 用于存储最终结果的对象，按 category 分组数据
 const categorizedData = {};
 const archives = [];
-const tagsSet = new Set(); // 使用 Set 来去重标签
+const tagsData = {};
 
 /** ========= STEP 1 ===========*/
 // 读取指定目录中的文件，如果是子目录则递归读取
@@ -104,9 +104,18 @@ async function extractFrontMatter(filePath, subDirPath, fileName) {
           categorizedData[frontMatterObject.category].push(frontMatterObject);
         }
 
-        // 收集所有的 tags 并去重
+        // 根据 tags 分组数据
         if (Array.isArray(frontMatterObject.tags)) {
-          frontMatterObject.tags.forEach((tag) => tagsSet.add(tag)); // 使用 Set 去重
+          // 遍历 tags 内的标签, 加入到 tagsData 的对象数组中
+          for (let index = 0; index < frontMatterObject.tags.length; index++) {
+            const t = frontMatterObject.tags[index];
+            // 如果该类别尚未存在，则初始化为一个空数组
+            if (!tagsData[t]) {
+              tagsData[t] = [];
+            }
+            // 将该条目添加到对应的 category 数组中
+            tagsData[t].push(frontMatterObject);
+          }
         }
       } catch (parseErr) {
         console.error("解析 front matter 失败:", parseErr);
@@ -189,7 +198,7 @@ async function writeSortedResultsToFile() {
     const finalData = {
       archives, // 全部的文章对象
       categories: categorizedData, // 按分类分组的数据
-      tags: Array.from(tagsSet), // 去重后的标签数组
+      tags: tagsData, // 按照标签整理的数据
     };
 
     // 将排序后的数据写入到 public/all.blog.json 文件中

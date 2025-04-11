@@ -3,7 +3,7 @@ title: Ubuntu的Bash工具
 category: CodeSpace_Blog
 serialNo: 3
 tags: [Ubuntu]
-date: 2025/1/9
+date: 2025-01-09
 thumbnail: /_pics/CodeSpace_Blog/ut_ubuntu_tool_thumbnail.png
 summary: 无
 ---

@@ -1,14 +1,10 @@
 <template>
-  <SideBarCard
-    :icon="['fas', 'folder']"
-    iconColor="#fcd53f"
-    title="博客文章系列"
-  >
+  <SideBarCard iconColor="#fcd53f" title="博客文章系列">
     <div class="category-list">
       <router-link
         v-for="category in categoryList"
         :key="category.id"
-        :to="`/article/${category.id}`"
+        :to="`/blog/${category.id}`"
         class="category-item"
       >
         <span

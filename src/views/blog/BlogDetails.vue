@@ -1,22 +1,20 @@
 <template>
   <!-- 页头 -->
   <HeaderBar></HeaderBar>
-  <div class="article-details">
+  <div class="blog-details">
     <!-- 页头封面 -->
     <HeaderCover>
-      <div class="article-info">
-        <h1 class="article-title">
-          {{ articleDetails.title }}
+      <div class="blog-info">
+        <h1 class="blog-title">
+          {{ blogDetails.title }}
         </h1>
-        <div class="article-meta-data-wrap">
-          <span class="article-meta-data">
-            <font-awesome-icon :icon="['fas', 'calendar-days']" />
-            发表于 {{ articleDetails.createTime }}
+        <div class="blog-meta-data-wrap">
+          <span class="blog-meta-data">
+            发表于 {{ blogDetails.createTime }}
           </span>
-          <span class="article-meta-data-divider">|</span>
-          <span class="article-meta-data">
-            <font-awesome-icon :icon="['fas', 'box-archive']" />
-            分类 {{ articleDetails.categoryName }}
+          <span class="blog-meta-data-divider">|</span>
+          <span class="blog-meta-data">
+            分类 {{ blogDetails.categoryName }}
           </span>
         </div>
       </div>
@@ -25,35 +23,33 @@
     <div class="container">
       <!-- 侧边栏 -->
       <SideBar>
-        <div class="sticky-layout" v-if="articleLoaded">
+        <div class="sticky-layout" v-if="blogLoaded">
           <SideBarCatalog></SideBarCatalog>
-          <ArticleSeries
-            :category="articleDetails.categoryName"
-            :serial-no="articleDetails.serialNo"
-          ></ArticleSeries>
+          <BlogSeries
+            :category="blogDetails.categoryName"
+            :serial-no="blogDetails.serialNo"
+          ></BlogSeries>
         </div>
       </SideBar>
 
       <!-- 文章内容 -->
       <div class="post-body">
-        <div class="article-content" v-html="articleDetails.content"></div>
+        <div class="blog-content" v-html="blogDetails.content"></div>
 
         <!-- 版权声明 -->
-        <div class="article-signature">
-          <img :src="websiteAuthorInfo.avatar" alt="头像" />
+        <div class="blog-signature">
+          <img :src="author.avatar" alt="头像" />
           <div class="copyright">
             <div class="copyright-item">
               <span class="copyright-title">文章作者：</span>
               <span class="copyright-content">
-                <router-link to="/">
-                  {{ websiteAuthorInfo.name }}</router-link
-                ></span
+                <router-link to="/"> {{ author.name }}</router-link></span
               >
             </div>
             <div class="copyright-item">
               <span class="copyright-title">文章链接：</span>
               <span class="copyright-content">
-                <a :href="articleUrl">{{ articleUrl }}</a>
+                <a :href="blogUrl">{{ blogUrl }}</a>
               </span>
             </div>
             <div class="copyright-item">
@@ -70,47 +66,40 @@
         </div>
 
         <!-- 标签 -->
-        <div class="article-tags" v-if="articleDetails.tags">
-          <span>
-            <font-awesome-icon :icon="['fas', 'tags']" />
-            标签：
-          </span>
-          <router-link
-            :to="'/tag/' + tag.id"
-            v-for="tag in articleDetails.tags"
-            :key="tag"
-            class="tag-link"
-            >{{ tag }}</router-link
-          >
+        <div class="blog-tags" v-if="blogDetails.tags">
+          <span> 标签： </span>
+          <div v-for="tag in blogDetails.tags" :key="tag" class="tag-link">
+            {{ tag }}
+          </div>
         </div>
 
         <!-- 上一篇和下一篇 -->
-        <div class="previous-next-article">
+        <div class="previous-next-blog">
           <div
-            class="previous-article"
-            v-if="previousArticle.id"
-            :style="{ width: nextArticle.id ? '50%' : '100%' }"
+            class="previous-blog"
+            v-if="previousBlog.id"
+            :style="{ width: nextBlog.id ? '50%' : '100%' }"
           >
-            <router-link :to="`/article/${previousArticle.id}`">
-              <div class="previous-article-info">
+            <router-link :to="`/blog/${previousBlog.id}`">
+              <div class="previous-blog-info">
                 <div class="label">« 上一篇</div>
                 <div class="title">
-                  {{ previousArticle.title }}
+                  {{ previousBlog.title }}
                 </div>
               </div>
             </router-link>
           </div>
 
           <div
-            class="next-article"
-            v-if="nextArticle.id"
-            :style="{ width: previousArticle.id ? '50%' : '100%' }"
+            class="next-blog"
+            v-if="nextBlog.id"
+            :style="{ width: previousBlog.id ? '50%' : '100%' }"
           >
-            <router-link :to="`/article/${nextArticle.id}`">
-              <div class="next-article-info">
+            <router-link :to="`/blog/${nextBlog.id}`">
+              <div class="next-blog-info">
                 <div class="label">下一篇 »</div>
                 <div class="title">
-                  {{ nextArticle.title }}
+                  {{ nextBlog.title }}
                 </div>
               </div>
             </router-link>
@@ -120,7 +109,7 @@
     </div>
 
     <!-- 回到顶部 -->
-    <BackToTop :cls="'article-details'"></BackToTop>
+    <BackToTop :cls="'blog-details'"></BackToTop>
     <!-- 页脚 -->
     <FootBar :style="{ position: 'relative', bottom: '60px' }"></FootBar>
   </div>
@@ -131,15 +120,14 @@ import { useStore } from "vuex";
 import { reactive, ref, onMounted, nextTick, computed } from "vue";
 
 import markdownIt from "../../utils/markdown-it";
-import buildCodeBlock from "../../utils/code-block";
-import { renderByMathjax, initMathJax } from "../../utils/mathjax";
+import buildCodeBlock from "../../utils/code-block.js";
 import router from "../../router";
 
 import HeaderBar from "../../components/HeaderBar.vue";
 import HeaderCover from "../../components/HeaderCover.vue";
 import SideBar from "../../components/SideBar.vue";
 import SideBarCatalog from "../../components/SideBarCatalog.vue";
-import ArticleSeries from "./ArticleSeries.vue";
+import BlogSeries from "./BlogSeries.vue";
 import FootBar from "../../components/FootBar.vue";
 import BackToTop from "../../components/BackToTop.vue";
 import { getBlogMdData } from "../../api/get.js";
@@ -156,20 +144,18 @@ const store = useStore();
 
 const archives = computed(() => store.state.blogsAbout.archives);
 const categories = computed(() => store.state.blogsAbout.categories);
-const websiteAuthorInfo = computed(
-  () => store.state.websiteAbout.websiteAuthorInfo
-);
+const author = computed(() => store.state.websiteAbout.author);
 
 // 标识文章是否加载完成
-const articleLoaded = ref(false);
+const blogLoaded = ref(false);
 // 当前文章的 URL
-const articleUrl = ref(window.location.href);
+const blogUrl = ref(window.location.href);
 // 上一篇文章信息
-const previousArticle = reactive({});
+const previousBlog = reactive({});
 // 下一篇文章信息
-const nextArticle = reactive({});
+const nextBlog = reactive({});
 // 文章内容的变量
-const articleDetails = reactive({ createTime: "" }); // 初始化文章详情
+const blogDetails = reactive({ createTime: "" }); // 初始化文章详情
 
 // 渲染界面
 onMounted(async () => {
@@ -182,61 +168,55 @@ onMounted(async () => {
   }
 
   // 根据文章 ID 在归档数据中查找对应的文章对象
-  const articleObj = archives.value.find((item) => item.id === props.id);
-  if (!articleObj) {
+  const blogObj = archives.value.find((item) => item.id === props.id);
+  if (!blogObj) {
     router.push("/404");
     return;
   }
 
   // 将 Markdown 数据渲染为 HTML 并赋值到文章详情
-  articleDetails.content = markdownIt.render(mdData);
+  blogDetails.content = markdownIt.render(mdData);
 
   nextTick(() => {
-    // 初始化 MathJax，渲染数学公式
-    initMathJax({}, () => {
-      // 渲染文章内容中的公式
-      renderByMathjax(".article-content");
-    });
-
     // 构建代码块高亮
-    buildCodeBlock(".article-content");
+    buildCodeBlock(".blog-content");
     // 标记文章加载完成
-    articleLoaded.value = true;
+    blogLoaded.value = true;
   }).then(() => {
     // 设置文章的其他详情信息
-    articleDetails.title = articleObj.title; // 设置文章标题
-    articleDetails.createTime = articleObj.date; // 设置创建时间
-    articleDetails.categoryName = articleObj.category; // 设置分类名称
-    articleDetails.tags = articleObj.tags; // 设置标签
-    articleDetails.serialNo = articleObj.serialNo; // 设置标签序号
+    blogDetails.title = blogObj.title; // 设置文章标题
+    blogDetails.createTime = blogObj.date; // 设置创建时间
+    blogDetails.categoryName = blogObj.category; // 设置分类名称
+    blogDetails.tags = blogObj.tags; // 设置标签
+    blogDetails.serialNo = blogObj.serialNo; // 设置标签序号
   });
 
   // 更新上一篇和下一篇文章信息
   // 获取当前文章所属分类
-  const category = categories.value[articleObj.category];
+  const category = categories.value[blogObj.category];
   if (typeof category !== "object") return;
 
   // 当前文章的序列号
-  const serialNo = articleObj.serialNo;
+  const serialNo = blogObj.serialNo;
   // 当前分类下的文章数量
   const categoryLength = category?.length;
 
   if (serialNo - 1 >= 0) {
     const previousObj = category[serialNo - 1];
-    previousArticle.id = previousObj.id;
-    previousArticle.title = previousObj.title;
+    previousBlog.id = previousObj.id;
+    previousBlog.title = previousObj.title;
   }
 
   if (serialNo + 2 <= categoryLength) {
     const nextObj = category[serialNo + 1];
-    nextArticle.id = nextObj.id;
-    nextArticle.title = nextObj.title;
+    nextBlog.id = nextObj.id;
+    nextBlog.title = nextObj.title;
   }
 });
 </script>
 
 <style lang="less" scoped>
-.article-details {
+.blog-details {
   height: 100%;
   overflow-y: auto;
 }
@@ -254,17 +234,17 @@ onMounted(async () => {
   justify-content: center;
 }
 
-.article-info {
+.blog-info {
   text-align: center;
   position: absolute;
   width: 100%;
   text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
-.article-title {
+.blog-title {
   font-size: 35px;
   font-weight: normal;
-  color: white;
+  color: #222325;
   line-height: 1.5;
   margin-bottom: 15px;
   padding: 0 30px;
@@ -285,14 +265,14 @@ onMounted(async () => {
   }
 }
 
-.article-meta-data-wrap {
+.blog-meta-data-wrap {
   display: flex;
   justify-content: center;
+  color: #222325;
 }
 
-.article-meta-data {
+.blog-meta-data {
   font-size: 14px;
-  color: white;
   box-sizing: border-box;
   line-height: 24px;
   overflow: hidden;
@@ -301,8 +281,8 @@ onMounted(async () => {
   -webkit-box-orient: vertical;
 }
 
-.article-meta-data-divider {
-  color: white;
+.blog-meta-data-divider {
+  color: #222325;
   margin: 3px 8px;
   font-size: 14px;
 }
@@ -315,7 +295,7 @@ onMounted(async () => {
   padding: 30px 40px;
   box-sizing: border-box;
 
-  :deep(.article-content) {
+  :deep(.blog-content) {
     img {
       display: block;
       margin: 15px auto 15px;
@@ -323,7 +303,8 @@ onMounted(async () => {
       width: 100%;
       cursor: pointer;
       cursor: zoom-in;
-      box-shadow: 0 1px 15px rgba(27, 31, 35, 0.15),
+      box-shadow:
+        0 1px 15px rgba(27, 31, 35, 0.15),
         0 0 1px rgba(106, 115, 125, 0.35);
     }
 
@@ -401,7 +382,8 @@ onMounted(async () => {
       code {
         border: none;
         border-radius: 7px;
-        font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
+        font-family:
+          Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
         line-height: 21px;
       }
     }
@@ -545,7 +527,7 @@ onMounted(async () => {
     }
   }
 
-  .article-signature {
+  .blog-signature {
     border: 1px solid #ddd;
     position: relative;
     overflow: hidden;
@@ -604,11 +586,21 @@ onMounted(async () => {
     }
   }
 
-  .article-tags {
+  .blog-tags {
     padding-left: 3px;
     margin-top: 20px;
     color: var(--text-color);
     font-size: 15px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    .tag-link {
+      background-color: #4a87ed;
+      padding: 4px;
+      color: #fff;
+      border-radius: 4px;
+    }
 
     a {
       border-radius: 4px;
@@ -623,7 +615,7 @@ onMounted(async () => {
     }
   }
 
-  .previous-next-article {
+  .previous-next-blog {
     width: 100%;
     margin-top: 50px;
     overflow: hidden;
@@ -631,12 +623,12 @@ onMounted(async () => {
     display: flex;
     border-radius: 9px;
 
-    .previous-article,
-    .next-article {
+    .previous-blog,
+    .next-blog {
       width: 50%;
 
       a {
-        height: 150px;
+        height: 90px;
         overflow: hidden;
         display: block;
         position: relative;
@@ -655,8 +647,8 @@ onMounted(async () => {
           }
         }
 
-        .previous-article-info,
-        .next-article-info {
+        .previous-blog-info,
+        .next-blog-info {
           pointer-events: none;
           position: absolute;
           top: 50%;
@@ -682,14 +674,14 @@ onMounted(async () => {
           }
         }
 
-        .next-article-info {
+        .next-blog-info {
           text-align: right;
         }
       }
     }
   }
 
-  #article-desc {
+  #blog-desc {
     font-size: 14px;
     margin-top: 8px;
     text-align: right;
@@ -779,7 +771,7 @@ onMounted(async () => {
     width: 100%;
   }
 
-  #article-desc {
+  #blog-desc {
     display: none;
   }
 }

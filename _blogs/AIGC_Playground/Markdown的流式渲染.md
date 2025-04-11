@@ -3,7 +3,7 @@ title: Markdown的流式渲染
 category: AIGC_Playground
 serialNo: 2
 tags: [AIGC, Playground, SSE, JavaScript]
-date: 2025/1/12
+date: 2025-01-12
 thumbnail: /_pics/AIGC_Playground/2_markdown_sse_thumbnail.png
 summary: 无
 ---

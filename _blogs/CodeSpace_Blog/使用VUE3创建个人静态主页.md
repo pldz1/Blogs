@@ -3,7 +3,7 @@ title: 使用VUE3创建个人静态主页
 category: CodeSpace_Blog
 serialNo: 1
 tags: [VUE3]
-date: 2025/1/8
+date: 2025-01-08
 thumbnail: /_pics/CodeSpace_Blog/v3_sbw_static_website_thumbnail.png
 summary: 无
 ---

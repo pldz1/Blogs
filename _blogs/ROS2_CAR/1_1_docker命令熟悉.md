@@ -3,7 +3,7 @@ title: 1 Docker 搭建 ROS2 嵌入式运行环境
 category: ROS2_CAR
 serialNo: 1
 tags: [ROS2智能车]
-date: 2025/1/1
+date: 2025-01-01
 thumbnail: /_pics/default_thumbnail.png
 summary: 无
 ---

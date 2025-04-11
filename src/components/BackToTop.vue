@@ -49,6 +49,8 @@ onUnmounted(() => {
     scrollElem.value = null;
   }
 });
+
+defineExpose({ scrollToTop });
 </script>
 
 <style scoped>
@@ -70,7 +72,10 @@ onUnmounted(() => {
   right: 20px;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
-  transition: bottom 0.2s, opacity 0.2s, background-color 0.2s;
+  transition:
+    bottom 0.2s,
+    opacity 0.2s,
+    background-color 0.2s;
   user-select: none;
   width: 50px;
   z-index: 9999;

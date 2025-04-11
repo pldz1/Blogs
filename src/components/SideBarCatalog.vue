@@ -2,11 +2,6 @@
   <div class="catalog-card" v-if="Object.keys(titles).length > 0">
     <div class="catalog-card-header">
       <div>
-        <span
-          ><font-awesome-icon
-            :icon="['fas', 'bars-staggered']"
-            class="catalog-icon"
-        /></span>
         <span>目录</span>
       </div>
       <span class="progress">{{ progress }}</span>
@@ -38,7 +33,7 @@ import { reactive, ref, onMounted, onUnmounted } from "vue";
 const props = defineProps({
   container: {
     type: String,
-    default: ".post-body .article-content", // 默认选择器
+    default: ".post-body .blog-content", // 默认选择器
   },
 });
 
@@ -54,13 +49,13 @@ const getTitles = () => {
   let levels = ["h1", "h2", "h3"]; // 支持的标题级别
 
   // 查找文章容器
-  const articleElement = document.querySelector(props.container);
-  if (!articleElement) {
+  const blogElement = document.querySelector(props.container);
+  if (!blogElement) {
     return titles; // 如果找不到容器，返回空数组
   }
 
   // 获取所有元素
-  const elements = Array.from(articleElement.querySelectorAll("*"));
+  const elements = Array.from(blogElement.querySelectorAll("*"));
 
   // 调整标签级别，仅保留实际存在的标题标签
   const tagNames = new Set(elements.map((el) => el.tagName.toLowerCase()));
@@ -186,7 +181,7 @@ const scrollToView = (scrollTop) => {
 // 组件挂载时初始化标题
 onMounted(() => {
   titles.value = getTitles();
-  const el = document.querySelector(".article-details");
+  const el = document.querySelector(".blog-details");
   if (el) {
     scrollElem.value = el;
     scrollElem.value.addEventListener("scroll", handleScroll);
@@ -201,7 +196,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .catalog-card {
   background: white;
   border-radius: 8px;

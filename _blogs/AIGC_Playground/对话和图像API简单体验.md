@@ -3,7 +3,7 @@ title: 对话和图像API简单体验
 category: AIGC_Playground
 serialNo: 1
 tags: [AIGC, Playground, Python, JavaScript]
-date: 2025/1/11
+date: 2025-01-11
 thumbnail: /_pics/AIGC_Playground/1_chat_image_api_thumbnail.png
 summary: 无
 ---

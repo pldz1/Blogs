@@ -1,107 +1,74 @@
 <template>
   <div class="admin-card">
-    <el-avatar
-      :size="50"
-      :src="websiteAuthorInfo.avatar"
-      class="avatar"
-    ></el-avatar>
+    <img :size="50" :src="author.avatar" class="avatar" />
     <div class="admin-description">
-      <h3>{{ websiteAuthorInfo.name }}</h3>
-      <p>{{ websiteAuthorInfo.signature }}</p>
+      <h3>{{ author.name }}</h3>
+      <p>{{ author.signature }}</p>
     </div>
 
     <!-- 发表的文章信息 -->
-    <div class="article-info-container">
-      <div class="article-info">
-        <p>文章</p>
-        <p>{{ blogsCount }}</p>
+    <div class="blog-info-container">
+      <div class="blog-info">
+        <p>{{ `文章: ${blogsCount}` }}</p>
       </div>
-      <div class="article-info">
-        <p>分类</p>
-        <p>{{ blogsCategories }}</p>
-      </div>
-      <div class="article-info">
-        <p>标签</p>
-        <p>{{ blogsTags }}</p>
+      <div class="blog-info">
+        <p>{{ `Code Space : ${codespaceCount}` }}</p>
       </div>
     </div>
 
-    <!-- 在 github 上 follow -->
-    <el-button type="primary" class="follow-button" @click="gotoGithub"
-      ><font-awesome-icon :icon="['fab', 'github']" class="github-icon" />Follow
-      Me</el-button
-    >
-
     <!-- 社交软件图标 -->
     <div class="social-icon-container">
-      <!-- CSDN -->
-      <a :href="websiteAuthorInfo.csdnUrl">
-        <i class="csdn"></i>
-      </a>
-
+      <div></div>
       <!-- GitHub -->
-      <a :href="websiteAuthorInfo.githubUrl">
-        <font-awesome-icon
-          :icon="['fab', 'github']"
-          class="social-icon"
-          id="github"
-        />
+      <a :href="author.githubUrl" target="_blank" rel="noopener noreferrer">
+        <div v-html="github32" class="icon-32 social-icon"></div
+      ></a>
+
+      <!-- CSDN -->
+      <a :href="author.csdnUrl" target="_blank" rel="noopener noreferrer">
+        <div v-html="csdn32" class="icon-32 social-icon"></div>
       </a>
 
-      <!-- QQ -->
-      <a :href="websiteAuthorInfo.juejinUrl">
-        <i class="juejin"></i>
+      <!-- 掘金社区 -->
+      <a :href="author.juejinUrl" target="_blank" rel="noopener noreferrer">
+        <div v-html="juejin32" class="icon-32 social-icon"></div>
       </a>
 
-      <!-- 邮箱 -->
-      <a :href="'mailto:' + ''">
-        <font-awesome-icon
-          :icon="['fas', 'envelope']"
-          class="social-icon"
-          id="email"
-        />
+      <!-- Gitee -->
+      <a :href="author.giteeUrl" target="_blank" rel="noopener noreferrer">
+        <div v-html="gitee32" class="icon-32 social-icon"></div>
       </a>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
 import { useStore } from "vuex";
+import { csdn32, github32, juejin32, gitee32 } from "@/assets/svg";
 
 const store = useStore();
 
-const websiteAuthorInfo = computed(
-  () => store.state.websiteAbout.websiteAuthorInfo
-);
-const blogsCount = computed(() => store.state.blogsAbout.archives.length);
-const blogsCategories = computed(
-  () => Object.keys(store.state.blogsAbout.categories).length
-);
-const blogsTags = computed(() => store.state.blogsAbout.tags.length);
-
-const gotoGithub = () => {
-  location.href = websiteAuthorInfo.value?.githubUrl;
-};
+const author = store.state.websiteAbout.author;
+const blogsCount = store.state.blogsAbout.archives.length;
+const codespaceCount = Object.keys(store.state.codespaceAbout.data).length;
 </script>
 
 <style scoped>
-@import url(../assets/css/material-icons.css);
-
 .admin-card {
   background: white;
   border-radius: 8px;
   box-shadow: var(--card-box-shadow);
   text-align: center;
-  height: 375px;
+  height: auto;
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
 }
 
 .avatar {
-  width: 120px;
-  height: 120px;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
   transition: transform 0.5s ease-out;
   -webkit-transition: transform 0.6s ease-out;
   -moz-transition: transform 0.5s ease-out;
@@ -137,7 +104,7 @@ const gotoGithub = () => {
   -webkit-box-orient: vertical;
 }
 
-.article-info-container {
+.blog-info-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -146,42 +113,27 @@ const gotoGithub = () => {
   margin-top: 0;
 }
 
-.article-info {
+.blog-info {
   margin: 0 5%;
 }
 
-.article-info p:nth-child(1) {
+.blog-info p:nth-child(1) {
   margin-bottom: 0;
 }
 
-.article-info p:nth-child(2) {
+.blog-info p:nth-child(2) {
   margin-top: 5px;
 }
 
 .social-icon-container {
   margin-top: 20px;
-}
-
-.csdn {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background-image: url("../assets/image/csdn.svg");
-  background-size: cover;
-}
-
-.juejin {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background-image: url("../assets/image/juejin.svg");
-  background-size: cover;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 16px;
 }
 
 .social-icon {
-  margin: 0px 3%;
-  font-size: 20px;
-  color: #555;
   transition: all 0.3s;
   cursor: pointer;
   transform: translateY(0);
@@ -189,34 +141,5 @@ const gotoGithub = () => {
 
 .social-icon:hover {
   transform: translateY(-5px);
-}
-
-#twitter:hover {
-  color: #77ddf6;
-}
-
-#github:hover {
-  color: black;
-}
-
-#qq:hover {
-  color: #d43402;
-}
-
-#email:hover {
-  color: #f7b401;
-}
-
-.follow-button {
-  display: block;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.github-icon {
-  margin-right: 10px;
-}
-
-@keyframes floatAni {
 }
 </style>

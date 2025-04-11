@@ -3,7 +3,7 @@ title: ABOUT
 category: Others
 serialNo: 0
 tags: []
-date: 2025/1/1
+date: 2025-01-01
 thumbnail: /_pics/Others/others.jpg
 summary: 无
 ---

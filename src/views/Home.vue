@@ -1,24 +1,21 @@
 <template>
   <!-- 页头 -->
   <HeaderBar></HeaderBar>
-  <div class="home">
-    <!-- 封面 -->
-    <HomeImageContainer
-      :imgUrl="'assets/image/home-cover.jpg'"
-      :title="`✨ ${websiteName} ✨`"
-      :content="`Welcome to ${websiteName}`"
-    ></HomeImageContainer>
-
-    <div class="container">
+  <div class="home-container">
+    <div class="content">
       <!-- 侧边栏 -->
       <div class="side-content">
         <WebSiteAuthorCard></WebSiteAuthorCard>
-        <SideBarCategory></SideBarCategory>
+        <SideBarCategory
+          :title="`全部分类`"
+          :category-list="categoryList"
+          @on-change-category="handleChangeCategory"
+        ></SideBarCategory>
       </div>
 
       <!-- 界面的主题内容 -->
       <div class="home-content">
-        <HomeContent></HomeContent>
+        <HomeContent :all-cards="allCards"></HomeContent>
       </div>
     </div>
 
@@ -26,31 +23,76 @@
     <FootBar></FootBar>
 
     <!-- 滚动到顶部按钮 -->
-    <BackToTop :cls="'home'"></BackToTop>
+    <BackToTop :cls="'home-container'"></BackToTop>
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { useStore } from "vuex";
-import HeaderBar from "../components/HeaderBar.vue";
-import HomeImageContainer from "../components/HomeImageContainer.vue";
-import WebSiteAuthorCard from "../components/WebSiteAuthorCard.vue";
-import SideBarCategory from "../components/SideBarCategory.vue";
-import HomeContent from "../components/HomeContent.vue";
-import FootBar from "../components/FootBar.vue";
-import BackToTop from "../components/BackToTop.vue";
+import HeaderBar from "@/components/HeaderBar.vue";
+import WebSiteAuthorCard from "@/components/WebSiteAuthorCard.vue";
+import HomeContent from "@/components/HomeContent.vue";
+import FootBar from "@/components/FootBar.vue";
+import BackToTop from "@/components/BackToTop.vue";
+import SideBarCategory from "@/components/SideBarCategory.vue";
 
-const websiteName = useStore().state.websiteAbout.websiteName;
+const store = useStore();
+
+// 获取博客全部的归档数据, 增加 url 和 type 的属性
+const archives = store.state.blogsAbout.archives;
+const validArchives = archives.map((item) => ({
+  ...item,
+  ctype: "blog",
+  url: `/blog/${item.id}`,
+}));
+
+// 得到codespace的对象数组
+const codePlaygroundList = Object.entries(store.state.codespaceAbout.data).map(
+  ([key, value]) => ({
+    ...value,
+    id: key,
+    ctype: "codespace",
+  })
+);
+
+const allCards = ref([]);
+
+// 公共排序函数
+const sortByDateDesc = (list) =>
+  [...list].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+// 初始化卡片列表（全部内容）
+allCards.value = sortByDateDesc([...validArchives, ...codePlaygroundList]);
+
+const categoryList = [
+  { name: "All", count: validArchives.length + codePlaygroundList.length },
+  { name: "Code Space", count: codePlaygroundList.length },
+  { name: "Blogs", count: validArchives.length },
+];
+
+// 映射不同分类对应的数据源
+const categoryMap = {
+  All: [...validArchives, ...codePlaygroundList],
+  "Code Space": codePlaygroundList,
+  Blogs: validArchives,
+};
+
+const handleChangeCategory = (categoryName) => {
+  const selectedList = categoryMap[categoryName] || [];
+  allCards.value = sortByDateDesc(selectedList);
+};
 </script>
 
 <style scoped>
-.home {
+.home-container {
   height: 100%;
   width: 100%;
   overflow-y: auto;
+  background-color: #f2f3f5;
 }
 
-.container {
+.content {
   padding: 40px 15px;
   max-width: 1300px;
   margin: 0 auto;
@@ -62,11 +104,11 @@ const websiteName = useStore().state.websiteAbout.websiteName;
   width: 74%;
 }
 
-.home-content .post-article-card {
+.home-content .post-blog-card {
   margin-top: 20px;
 }
 
-.home-content .post-article-card:nth-child(1) {
+.home-content .post-blog-card:nth-child(1) {
   margin-top: 0;
 }
 
