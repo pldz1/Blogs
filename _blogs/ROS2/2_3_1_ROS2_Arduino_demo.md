@@ -1,18 +1,18 @@
 ---
-title: 3 ROS2 和 arduino 通讯
-category: ROS2_MICRO
+title: ROS2 和 arduino 通讯
+category: ROS2
 serialNo: 3
 tags: [ROS2和单片机]
 date: 2025-01-01
-thumbnail: /_pics/default_thumbnail.png
-summary: 无
+thumbnail: /_pics/ROS2/3_ros2_arduino_demo_thumbnail.png
+summary: 正式开始介绍ROS2和arduino通讯实现的方式 -- 直接获取串口数据再解析.
 ---
 
 # 3.1 基本介绍
 
 在完成了上面两个简单的 arduino 的例子之后 也能用 python 从串口拿到消息，然后做 ROS2 消息的转发
 
-![main_concept](/_pics/ROS2_MICRO/3_main_concept.png)
+![main_concept](/_pics/ROS2/3_main_concept.png)
 
 接下来我们就可以对拿到的消息做处理
 
@@ -22,7 +22,7 @@ summary: 无
 - Python 发送消息给到 ROS2 的节点的格式(Twist)
 - 有了上面两个辅助的模块，就可以创建一个 ROS2 的节点，在不断的从串口获取数据，然后解析数据转成控制 ROS2 turtlesim 的消息
 
-![ros2_arduino_concept](/_pics/ROS2_MICRO/3_ros2_arduino_concept.png)
+![ros2_arduino_concept](/_pics/ROS2/3_ros2_arduino_concept.png)
 
 那么 我们的文件夹结构就是这样的
 
@@ -42,7 +42,7 @@ ros2_arduino_demo/
 
 距离传感器报警之后机器人急停，解除之后恢复
 
-![demo](/_pics/ROS2_MICRO/3_demo.jpg)
+![demo](/_pics/ROS2/3_demo.jpg)
 
 # 3.3 处理串口消息的模块 read_serial.py
 
@@ -179,7 +179,7 @@ class MoveInstruction():
 
 这个才是重中之重, 主要的实现也就如下所示
 
-![ros2_arduino_core_graph](/_pics/ROS2_MICRO/3_ros2_arduino_core_graph.png)
+![ros2_arduino_core_graph](/_pics/ROS2/3_ros2_arduino_core_graph.png)
 
 那么这时候看代码就清楚了
 

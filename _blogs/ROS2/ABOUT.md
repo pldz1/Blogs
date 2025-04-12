@@ -1,11 +1,11 @@
 ---
 title: ABOUT
-category: ROS2_BASIC
+category: ROS2
 serialNo: 0
 tags: [ROS2基础]
 date: 2025-01-01
-thumbnail: /_pics/ROS2_BASIC/0_ros2_basic.jpg
-summary: 无
+thumbnail: /_pics/ROS2/0_ros2_basic.jpg
+summary: ROS2系列的开篇.
 ---
 
 # 📝 About

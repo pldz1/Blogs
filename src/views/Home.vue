@@ -42,17 +42,23 @@ const store = useStore();
 // 获取博客全部的归档数据, 增加 url 和 type 的属性
 const archives = store.state.blogsAbout.archives;
 const validArchives = archives.map((item) => ({
-  ...item,
+  id: item.id,
   ctype: "blog",
-  url: `/blog/${item.id}`,
+  blog: {
+    ...item,
+    url: `/blog/${item.id}`,
+  },
 }));
 
 // 得到codespace的对象数组
 const codePlaygroundList = Object.entries(store.state.codespaceAbout.data).map(
   ([key, value]) => ({
-    ...value,
     id: key,
     ctype: "codespace",
+    blog: {
+      ...value,
+      id: key,
+    },
   })
 );
 
@@ -60,7 +66,7 @@ const allCards = ref([]);
 
 // 公共排序函数
 const sortByDateDesc = (list) =>
-  [...list].sort((a, b) => new Date(b.date) - new Date(a.date));
+  [...list].sort((a, b) => new Date(b.blog.date) - new Date(a.blog.date));
 
 // 初始化卡片列表（全部内容）
 allCards.value = sortByDateDesc([...validArchives, ...codePlaygroundList]);

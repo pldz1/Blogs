@@ -4,10 +4,10 @@
     <div class="container">
       <div class="home-card-list">
         <BlogCard
-          v-for="(blog, index) in allCards"
-          :ctype="blog.ctype"
-          :key="blog.id"
-          :blog="blog"
+          v-for="card in allCards"
+          :ctype="card.ctype"
+          :key="card.id"
+          :blog="card.blog"
           :reverse="false"
         ></BlogCard>
       </div>

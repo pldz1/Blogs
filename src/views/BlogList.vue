@@ -19,7 +19,7 @@
         <div class="home-card-list">
           <BlogCard
             v-for="blog in blogsCategroyList"
-            ctype="blog"
+            :ctype="`blog`"
             :key="blog.id"
             :blog="blog"
             :reverse="false"

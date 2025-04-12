@@ -1,11 +1,11 @@
 ---
-title: 1 ROS2 和 Arduino 通讯
-category: ROS2_MICRO
-serialNo: 1
+title: ROS2 和 Arduino 通讯
+category: ROS2
+serialNo: 101
 tags: [ROS2和单片机]
 date: 2025-01-01
-thumbnail: /_pics/default_thumbnail.png
-summary: 无
+thumbnail: /_pics/ROS2/1_ros2_arduino_thumbnail.jpg
+summary: ROS2和Arduino通讯的介绍, 两个通讯可能实现的方式.
 ---
 
 ROS2 和 Arduino 的通讯方式有很多，个人觉得只要分为两大类
@@ -14,6 +14,6 @@ ROS2 和 Arduino 的通讯方式有很多，个人觉得只要分为两大类
 
 2. 直接从微控制器本身出发，Arduino 直接烧录自身的功能代码 而不依赖仍和 ROS2 相关的库，然后用 Python 或者 C/C++编写接受串口消息的节点，做发布和订阅
 
-![1_different_com_method](/_pics/ROS2_MICRO/1_different_com_method.png)
+![1_different_com_method](/_pics/ROS2/1_different_com_method.png)
 
 那么这里就采用第二种方式，最简单快速的完成 ROS2 和 Arduino 的通讯

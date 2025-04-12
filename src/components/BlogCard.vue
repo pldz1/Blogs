@@ -2,7 +2,7 @@
   <div :class="cardClass">
     <!-- 如果是博客内容的缩略图 显示路由标签 -->
     <router-link
-      v-if="blog.ctype == 'blog'"
+      v-if="ctype == 'blog'"
       :to="`${blog.url}`"
       :class="thumbailLinkClass"
       ><img
@@ -27,7 +27,7 @@
     <div class="post-blog-info">
       <!-- 如果是博客的标题用路由表 -->
       <router-link
-        v-if="blog.ctype == 'blog'"
+        v-if="ctype == 'blog'"
         :to="`${blog.url}`"
         class="post-blog-title"
         >{{ blog.title }}
@@ -45,14 +45,14 @@
         </span>
         <span
           class="post-blog-meta-data ml8"
-          v-if="blog.ctype == 'blog' && blog.category"
+          v-if="ctype == 'blog' && blog.category"
         >
           <div class="icon-16" v-html="book16"></div>
           分类: {{ blog.category }}
         </span>
         <span
           class="post-blog-meta-data ml8"
-          v-if="blog.ctype == 'blog' && blog.tags"
+          v-if="ctype == 'blog' && blog.tags"
         >
           <div class="icon-16" v-html="tag16"></div>
           标签: {{ blog.tags }}
