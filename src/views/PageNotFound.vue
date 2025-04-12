@@ -31,7 +31,7 @@ export default {
 }
 
 .four_zero_four_bg {
-  background-image: url("../assets/image/404.gif");
+  background-image: url("/404.jpg");
   height: 400px;
   background-position: center;
   background-repeat: no-repeat;

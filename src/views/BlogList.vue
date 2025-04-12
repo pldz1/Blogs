@@ -18,7 +18,7 @@
       <div class="home-content">
         <div class="home-card-list">
           <BlogCard
-            v-for="(blog, index) in blogsCategroyList"
+            v-for="blog in blogsCategroyList"
             ctype="blog"
             :key="blog.id"
             :blog="blog"
