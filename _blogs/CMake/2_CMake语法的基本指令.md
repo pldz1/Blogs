@@ -4,7 +4,7 @@ category: CMake
 serialNo: 2
 tags: [CMake]
 date: 2025-01-01
-thumbnail: /_/_pics/CMake/AIGC_Playground/0_category.png
+thumbnail: /_pics/CMake/2_cmake_language_thumbnail.png
 summary: CMake的最简单的基础的语法.
 ---
 

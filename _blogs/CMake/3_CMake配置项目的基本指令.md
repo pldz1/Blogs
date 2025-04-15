@@ -4,7 +4,7 @@ category: CMake
 serialNo: 3
 tags: [CMake]
 date: 2025-01-01
-thumbnail: /_/_pics/CMake/AIGC_Playground/0_category.png
+thumbnail: /_pics/CMake/3_cmake_project_thumbnail.png
 summary: 介绍怎么用CMake配置一个项目
 ---
 

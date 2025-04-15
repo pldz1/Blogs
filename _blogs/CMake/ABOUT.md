@@ -4,7 +4,7 @@ category: CMake
 serialNo: 0
 tags: [CMake]
 date: 2025-01-01
-thumbnail: /_pics/AIGC_Playground/0_category.png
+thumbnail: /_pics/CMake/cmake_about_thumbnail.png
 summary: CMake的导读页面.
 ---
 
