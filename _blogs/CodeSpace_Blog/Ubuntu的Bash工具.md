@@ -5,7 +5,7 @@ serialNo: 3
 tags: [Ubuntu]
 date: 2025-01-09
 thumbnail: /_pics/CodeSpace_Blog/ut_ubuntu_tool_thumbnail.png
-summary: 无
+summary: 简单的更新一点这个指令bash脚本.
 ---
 
 # 💻⚡ Ubuntu Bash 工具

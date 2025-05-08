@@ -5,7 +5,7 @@ serialNo: 1
 tags: [AIGC, Playground, Python, JavaScript]
 date: 2025-01-11
 thumbnail: /_pics/AIGC_Playground/1_chat_image_api_thumbnail.png
-summary: 无
+summary: 前言 JS 和 Python 是比较受欢迎的两个调用 OpenAI 对话 API 的两个库, 这里 简单记录这两个库对 OpenAI 的对话(Chat)和图像(Image)的使用.
 ---
 
 # 前言

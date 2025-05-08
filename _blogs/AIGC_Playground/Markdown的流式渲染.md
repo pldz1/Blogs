@@ -5,7 +5,7 @@ serialNo: 2
 tags: [AIGC, Playground, SSE, JavaScript]
 date: 2025-01-12
 thumbnail: /_pics/AIGC_Playground/2_markdown_sse_thumbnail.png
-summary: 无
+summary: 用 markdown-it 这个库在 HTML 上动态更新 markdown 内容(不是重新刷新).
 ---
 
 # 0️⃣ 前言

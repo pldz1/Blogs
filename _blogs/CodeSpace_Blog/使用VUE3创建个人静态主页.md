@@ -5,7 +5,7 @@ serialNo: 1
 tags: [VUE3]
 date: 2025-01-08
 thumbnail: /_pics/CodeSpace_Blog/v3_sbw_static_website_thumbnail.png
-summary: 无
+summary: VUE3 来做这个静态的网站.
 ---
 
 # 🌟 前言
